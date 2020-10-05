@@ -1,0 +1,13 @@
+div{
+    background-color: blue;
+}
+
+table{
+    border: solid 5px;
+}
+
+td{
+    border: solid 1px;
+    text-align: center;
+    padding: 15px;
+}

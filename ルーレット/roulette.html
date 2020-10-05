@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>ルーレット</title>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="roulette.css">
+        <script>
+            $(function(){
+                
+                var Interval_id;
+                var not_selected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+                var rand;
+                var start_flag = false;
+                
+                $('#start').click(roulette_start);
+                $('#stop').click(roulette_stop);
+                $('#reset').click(roulette_reset);
+
+
+                function roulette(){
+                    rand = not_selected[Math.floor(Math.random()*not_selected.length)];
+                    for(var i = 0; i < not_selected.length; i++){
+                        $('td').eq(not_selected[i]).css('background-color','white');
+                    }
+                    $('td').eq(rand).css('background-color','pink');
+
+                }
+
+
+                //スタートをクリックするとランダムに色が変わる
+                function roulette_start(){
+                    $('#start').prop('disabled',true);
+                    if(start_flag === false){
+                        roulette();
+                        Interval_id = setInterval(roulette,100);
+                        start_flag = true;
+                    }
+                }
+            
+
+                //ストップを押すと止まる
+                function roulette_stop(){
+                    clearInterval(Interval_id);
+                    var index = not_selected.indexOf(rand);
+                    if(index>=0){
+                        not_selected.splice(index,1);
+                        $('td').eq(rand).css('background-color','lavender');
+                    }
+                    console.log(not_selected);
+                    start_flag = false;
+                    if(not_selected.length>0){
+                    $('#start').prop('disabled',false);
+                    }
+                    
+                }
+                
+                
+                //リセットを押すと色が戻る
+                function roulette_reset(){
+                    clearInterval(Interval_id);
+                    $('td').css('background-color','');
+                    not_selected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+                    console.log(not_selected);
+                    start_flag = false;
+                    $('#start').prop('disabled',false);
+                    rand = -1;
+                }
+                 
+            });
+            
+        </script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>10</td>
+                <td>11</td>
+                <td>12</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>14</td>
+                <td>15</td>
+                <td>16</td>
+            </tr>            
+        </table>
+        <button id="start">スタート</button>
+        <button id="stop">ストップ</button>
+        <button id="reset">リセット</button>
+    </body>
+</html>
